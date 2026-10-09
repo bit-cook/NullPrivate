@@ -22,7 +22,7 @@ import { toggleClientBlock } from '../../actions/access';
 import { renderFormattedClientCell } from '../../helpers/renderFormattedClientCell';
 import { getStats } from '../../actions/stats';
 
-import IconTooltip from '../Logs/Cells/IconTooltip';
+import ButtonActionMenu from '../Logs/Cells/ButtonActionMenu';
 import { RootState } from '../../initialState';
 
 const getClientsPercentColor = (percent: any) => {
@@ -92,38 +92,23 @@ const renderBlockingButton = (ip: any, disallowed: any, disallowed_rule: any) =>
     const lastRuleInAllowlist = !disallowed && allowedClients === disallowed_rule;
     const disabled = processingSet || lastRuleInAllowlist;
     return (
-        <div className="table__action">
-            <button type="button" className="btn btn-icon btn-sm px-0" onClick={() => setOptionsOpened(true)}>
-                <svg className="icon24 icon--lightgray button-action__icon">
-                    <use xlinkHref="#bullets" />
-                </svg>
-            </button>
-            {isOptionsOpened && (
-                <IconTooltip
-                    className="icon24"
-                    tooltipClass="button-action--arrow-option-container"
-                    xlinkHref="bullets"
-                    triggerClass="btn btn-icon btn-sm px-0 button-action__hidden-trigger"
-                    content={
-                        <button
-                            className={classNames(
-                                'button-action--arrow-option px-4 py-1',
-                                disallowed ? 'bg--green' : 'bg--danger',
-                            )}
-                            onClick={onClick}
-                            disabled={disabled}
-                            title={lastRuleInAllowlist ? t('last_rule_in_allowlist', { disallowed_rule }) : ''}>
-                            <Trans>{text}</Trans>
-                        </button>
-                    }
-                    placement="bottom-end"
-                    trigger="click"
-                    onVisibilityChange={setOptionsOpened}
-                    defaultTooltipShown={true}
-                    delayHide={0}
-                />
-            )}
-        </div>
+        <ButtonActionMenu
+            containerClass="table__action"
+            shown={isOptionsOpened}
+            onVisibilityChange={setOptionsOpened}
+            content={
+                <button
+                    className={classNames(
+                        'button-action--arrow-option px-4 py-1',
+                        disallowed ? 'bg--green' : 'bg--danger',
+                    )}
+                    onClick={onClick}
+                    disabled={disabled}
+                    title={lastRuleInAllowlist ? t('last_rule_in_allowlist', { disallowed_rule }) : ''}>
+                    <Trans>{text}</Trans>
+                </button>
+            }
+        />
     );
 };
 

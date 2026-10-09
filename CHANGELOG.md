@@ -6,6 +6,10 @@ The format is based on [*Keep a Changelog*](https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Fixed
+
+- Query log and dashboard client ⋮ action menus no longer flash and close immediately after opening.
+
 ### Security
 
 - Upgraded `google.golang.org/grpc` to `v1.82.1` to fix [CVE-2026-33186][cve-2026-33186] and [GHSA-hrxh-6v49-42gf][ghsa-hrxh-6v49-42gf].

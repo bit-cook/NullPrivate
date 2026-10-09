@@ -520,19 +520,6 @@
     background-color: var(--card-bgcolor);
 }
 
-.button-action__hidden-trigger {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 1px;
-    height: 33px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-    clip: rect(0 0 0 0);
-}
-
 [data-theme='dark'] .button-action__icon {
     color: var(--gray-f3);
 }

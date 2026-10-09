@@ -11,6 +11,7 @@ import { BLOCK_ACTIONS } from '../../../helpers/constants';
 
 import { toggleBlocking, toggleBlockingForClient } from '../../../actions';
 
+import ButtonActionMenu from './ButtonActionMenu';
 import IconTooltip from './IconTooltip';
 
 import { renderFormattedClientCell } from '../../../helpers/renderFormattedClientCell';
@@ -178,27 +179,12 @@ const ClientCell = ({ client, client_id, client_info, domain, reason }: ClientCe
         });
 
         return (
-            <div className={containerClass}>
-                <button type="button" className="btn btn-icon btn-sm px-0" onClick={() => setOptionsOpened(true)}>
-                    <svg className="icon24 icon--lightgray button-action__icon">
-                        <use xlinkHref="#bullets" />
-                    </svg>
-                </button>
-                {isOptionsOpened && (
-                    <IconTooltip
-                        className="icon24"
-                        tooltipClass="button-action--arrow-option-container"
-                        xlinkHref="bullets"
-                        triggerClass="btn btn-icon btn-sm px-0 button-action__hidden-trigger"
-                        content={content}
-                        placement="bottom-end"
-                        trigger="click"
-                        onVisibilityChange={setOptionsOpened}
-                        defaultTooltipShown={true}
-                        delayHide={0}
-                    />
-                )}
-            </div>
+            <ButtonActionMenu
+                containerClass={containerClass}
+                shown={isOptionsOpened}
+                onVisibilityChange={setOptionsOpened}
+                content={content}
+            />
         );
     };
 

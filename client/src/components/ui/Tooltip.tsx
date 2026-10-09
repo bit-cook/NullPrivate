@@ -16,8 +16,11 @@ interface TooltipProps {
     delayShow?: number;
     className?: string;
     triggerClass?: string;
-    onVisibilityChange?: (...args: unknown[]) => unknown;
+    triggerAs?: 'span' | 'button';
+    onVisibilityChange?: (visible: boolean) => void;
     defaultTooltipShown?: boolean;
+    tooltipShown?: boolean;
+    closeOnOutOfBoundaries?: boolean;
 }
 
 interface renderTooltipProps {
@@ -34,6 +37,7 @@ const Tooltip = ({
     children,
     content,
     triggerClass = 'tooltip-custom__trigger',
+    triggerAs = 'span',
     className = 'tooltip-container',
     placement = 'bottom',
     trigger = 'hover',
@@ -41,6 +45,8 @@ const Tooltip = ({
     delayHide = HIDE_TOOLTIP_DELAY,
     onVisibilityChange,
     defaultTooltipShown,
+    tooltipShown,
+    closeOnOutOfBoundaries,
 }: TooltipProps) => {
     const { t } = useTranslation();
     const touchEventsAvailable = 'ontouchstart' in window;
@@ -65,15 +71,19 @@ const Tooltip = ({
         </div>
     );
 
-    const renderTrigger = ({ getTriggerProps, triggerRef }: renderTriggerProps) => (
-        <span
-            {...getTriggerProps({
-                ref: triggerRef,
-                className: triggerClass,
-            })}>
-            {children}
-        </span>
-    );
+    const renderTrigger = ({ getTriggerProps, triggerRef }: renderTriggerProps) => {
+        if (!getTriggerProps) {
+            return children;
+        }
+
+        const triggerProps = getTriggerProps({
+            ref: triggerRef,
+            className: triggerClass,
+            ...(triggerAs === 'button' ? { type: 'button' } : {}),
+        });
+
+        return React.createElement(triggerAs, triggerProps, children);
+    };
 
     return (
         <TooltipTrigger
@@ -83,7 +93,9 @@ const Tooltip = ({
             delayShow={delayShowValue}
             tooltip={renderTooltip}
             onVisibilityChange={onVisibilityChange}
-            defaultTooltipShown={defaultTooltipShown}>
+            defaultTooltipShown={defaultTooltipShown}
+            tooltipShown={tooltipShown}
+            closeOnOutOfBoundaries={closeOnOutOfBoundaries}>
             {renderTrigger}
         </TooltipTrigger>
     );

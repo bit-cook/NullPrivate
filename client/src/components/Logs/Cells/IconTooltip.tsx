@@ -24,9 +24,12 @@ interface IconTooltipProps {
     xlinkHref?: string;
     content?: React.ReactNode;
     renderContent?: React.ReactElement[];
-    onVisibilityChange?: (...args: unknown[]) => unknown;
+    onVisibilityChange?: (visible: boolean) => void;
     defaultTooltipShown?: boolean;
+    tooltipShown?: boolean;
+    closeOnOutOfBoundaries?: boolean;
     delayHide?: number;
+    triggerAs?: 'span' | 'button';
 }
 
 const IconTooltip = ({
@@ -41,8 +44,11 @@ const IconTooltip = ({
     tooltipClass,
     content,
     trigger,
+    triggerAs,
     onVisibilityChange,
     defaultTooltipShown,
+    tooltipShown,
+    closeOnOutOfBoundaries,
     delayHide,
 
     renderContent = content
@@ -78,10 +84,13 @@ const IconTooltip = ({
             placement={placement}
             triggerClass={triggerClass}
             trigger={trigger}
+            triggerAs={triggerAs}
             onVisibilityChange={onVisibilityChange}
             delayShow={trigger === 'click' ? 0 : SHOW_TOOLTIP_DELAY}
             delayHide={delayHide}
-            defaultTooltipShown={defaultTooltipShown}>
+            defaultTooltipShown={defaultTooltipShown}
+            tooltipShown={tooltipShown}
+            closeOnOutOfBoundaries={closeOnOutOfBoundaries}>
             {xlinkHref && (
                 <svg className={className}>
                     <use xlinkHref={`#${xlinkHref}`} />
